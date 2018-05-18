@@ -1,6 +1,7 @@
 import copy
 from keras import backend as K
 from keras import objectives
+from keras.optimizers import Adam
 from keras.models import Model
 from keras.layers import Input, Dense, Lambda
 from keras.layers.core import Dense, Activation, Flatten, RepeatVector
@@ -70,7 +71,8 @@ class MoleculeVAE():
             self.encoderMV.load_weights(weights_file, by_name = True)
 
 
-        self.autoencoder.compile(optimizer = 'Adam',
+        adam = Adam(lr=0.01)
+        self.autoencoder.compile(optimizer = adam,
                                  loss = vae_loss,
                                  metrics = ['accuracy'])
 
