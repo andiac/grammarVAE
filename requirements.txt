@@ -1,7 +1,7 @@
 numpy
 scipy
 scikit-learn==0.18.0
-https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.12.1-cp27-none-linux_x86_64.whl
+https://pypi.tuna.tsinghua.edu.cn/packages/34/53/0e10581ad88bca25e5005874e46130b12efbd5eb1bda493dbf9b1648cbe2/tensorflow-0.12.1-cp27-cp27m-macosx_10_11_x86_64.whl
 h5py==2.6.0
 keras==1.2.1
 matplotlib
