@@ -17,10 +17,10 @@ print(grammar_weights)
 grammar_model = equation_vae.EquationGrammarModel(grammar_weights, latent_rep_size=25)
 
 # 2. let's encode and decode some example equations
-eq = ['sin(x*2)',
-      'exp(x)+x',
-      'x/3',
-      '3*exp(2/x)']
+eq = ['sin( x * 2 )',
+      'exp( x ) + x',
+      'x / 3',
+      '3 * exp( 2 / x )']
 
 # z: encoded latent points
 # NOTE: this operation returns the mean of the encoding distribution
@@ -51,7 +51,7 @@ for i, s in enumerate(grammar_model.decode(z)):
     plt.legend(["function", "reconstruction"])
     plt.title('%15s -> %s' % (eq[i], s))
 
-
+plt.show()
 
 
 # 3. the character VAE (https://github.com/maxhodak/keras-molecules)
