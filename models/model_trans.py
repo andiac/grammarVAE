@@ -64,11 +64,16 @@ class MoleculeVAE():
         (z_m, z_l_v) = self._encoderMeanVar(x2, latent_rep_size, max_length)
         self.encoderMV = Model(input=x2, output=[z_m, z_l_v])
 
+        x3 = Input(shape=(max_length, charset_length))
+        h = self._denseLayer(x3, latent_rep_size, max_length)
+        self.denseLayer = Model(input=x3, output=h)
+
         if weights_file:
             self.autoencoder.load_weights(weights_file)
             self.encoder.load_weights(weights_file, by_name = True)
             self.decoder.load_weights(weights_file, by_name = True)
             self.encoderMV.load_weights(weights_file, by_name = True)
+            self.denseLayer.load_weights(weights_file, by_name = True)
 
 
         adam = Adam(lr=0.01)
@@ -76,6 +81,16 @@ class MoleculeVAE():
                                  loss = vae_loss,
                                  metrics = ['accuracy'])
 
+    def _denseLayer(self, x, latent_rep_size, max_length, epsilon_std = 0.01):
+        h = Convolution1D(self.hypers['conv1'], self.hypers['conv1'], activation = 'relu', name='conv_1')(x)
+        h = BatchNormalization(name='batch_1')(h)
+        h = Convolution1D(self.hypers['conv2'], self.hypers['conv2'], activation = 'relu', name='conv_2')(h)
+        h = BatchNormalization(name='batch_2')(h)
+        h = Convolution1D(self.hypers['conv3'], self.hypers['conv3'], activation = 'relu', name='conv_3')(h) 
+        h = BatchNormalization(name='batch_3')(h)
+        h = Flatten(name='flatten_1')(h)
+        h = Dense(self.hypers['dense'], activation = 'relu', name='dense_1')(h)
+        return h
 
     def _encoderMeanVar(self, x, latent_rep_size, max_length, epsilon_std = 0.01):
         h = Convolution1D(self.hypers['conv1'], self.hypers['conv1'], activation = 'relu', name='conv_1')(x)
