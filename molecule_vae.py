@@ -83,6 +83,20 @@ class ZincGrammarModel(object):
         self.one_hot = one_hot
         return self.vae.encoderMV.predict(one_hot)[0]
 
+    def get_dense(self, smiles):
+        assert type(smiles) == list
+        tokens = map(self._tokenize, smiles)
+        parse_trees = [self._parser.parse(t).next() for t in tokens]
+        productions_seq = [tree.productions() for tree in parse_trees]
+        indices = [np.array([self._prod_map[prod] for prod in entry], dtype=int) for entry in productions_seq]
+        one_hot = np.zeros((len(indices), self.MAX_LEN, self._n_chars), dtype=np.float32)
+        for i in xrange(len(indices)):
+            num_productions = len(indices[i])
+            one_hot[i][np.arange(num_productions),indices[i]] = 1.
+            one_hot[i][np.arange(num_productions, self.MAX_LEN),-1] = 1.
+        self.one_hot = one_hot
+        return self.vae.denseLayer.predict(one_hot)
+
     def _sample_using_masks(self, unmasked):
         """ Samples a one-hot vector, masking at each timestep.
             This is an implementation of Algorithm ? in the paper. """

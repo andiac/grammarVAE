@@ -11,7 +11,8 @@ import pdb
 
 
 # 1. load grammar VAE
-grammar_weights = "pretrained/eq_vae_grammar_h100_c234_L25_E50_batchB.hdf5"
+#grammar_weights = "pretrained/eq_vae_grammar_h100_c234_L25_E50_batchB.hdf5"
+grammar_weights = "./eq_vae_grammar_h100_c234_L25_E50_batchB.hdf5"
 print(grammar_weights)
 grammar_model = equation_vae.EquationGrammarModel(grammar_weights, latent_rep_size=25)
 
@@ -26,6 +27,10 @@ eq = ['sin(x*2)',
 # if you would like it to sample from that distribution instead
 # replace line 62 in equation_vae.py with: return self.vae.encoder.predict(one_hot)
 z = grammar_model.encode(eq)
+z2 = grammar_model.get_dense(eq)
+
+print(z)
+print(z2)
 
 # mol: decoded equations
 # NOTE: decoding is stochastic so calling this function many
