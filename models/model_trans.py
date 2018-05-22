@@ -77,6 +77,7 @@ class MoleculeVAE():
 
 
         adam = Adam(lr=0.01)
+        #self.autoencoder.compile(optimizer = 'Adam',
         self.autoencoder.compile(optimizer = adam,
                                  loss = vae_loss,
                                  metrics = ['accuracy'])
