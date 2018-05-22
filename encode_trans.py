@@ -19,6 +19,8 @@ for line in trans_file:
     trans.append(line.strip())
 trans_file.close()
 
+trans = list(set(trans))
+
 CASE = len(trans)
 
 trans = trans[0:CASE]
