@@ -1,5 +1,6 @@
 from __future__ import division
 import sys
+import pandas as pd
 
 import equation_vae
 
@@ -22,6 +23,7 @@ eq = eq[0:CASE]
 
 z = grammar_model.encode(eq)
 z2 = grammar_model.get_dense(eq)
+
 
 for i, s in enumerate(grammar_model.decode(z)):
     print(eq[i], s)

@@ -3,7 +3,7 @@ import re
 
 import trans_grammar
 import molecule_vae
-import models.model_eq
+import models.model_trans
 import models.model_eq_str
 import numpy as np
 
@@ -22,7 +22,7 @@ class EquationGrammarModel(molecule_vae.ZincGrammarModel):
     def __init__(self, weights_file, latent_rep_size=25):
         """ Load the (trained) equation encoder/decoder, grammar model. """
         self._grammar = trans_grammar
-        self._model = models.model_eq
+        self._model = models.model_trans
         self.MAX_LEN = 15 # TODO: read from elsewhere
         self._productions = self._grammar.GCFG.productions()
         self._prod_map = {}

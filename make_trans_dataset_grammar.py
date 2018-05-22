@@ -9,6 +9,7 @@ import trans_vae
 
 
 f = open('data/2db.cfg','r')
+# f = open('data/big.cfg','r')
 L = []
 
 count = -1
@@ -25,7 +26,7 @@ def to_one_hot(transactions):
     assert type(transactions) == list
     prod_map = {}
     for ix, prod in enumerate(trans_grammar.GCFG.productions()):
-        print(prod)
+        # print(prod)
         prod_map[prod] = ix
     # tokenize = trans_vae.get_trans_tokenizer(trans_grammar.GCFG)
     tokens = []
@@ -50,8 +51,8 @@ for i in range(0, len(L), 100):
     onehot = to_one_hot(L[i:i+100])
     #print(onehot)
     OH[i:i+100,:,:] = onehot
-print(L[0])
-print(OH[0])
+# print(L[0])
+# print(OH[0])
 
 h5f = h5py.File('./data/trans_grammar_dataset.h5','w')
 h5f.create_dataset('data', data=OH)
